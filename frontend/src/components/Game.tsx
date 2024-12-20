@@ -2,6 +2,7 @@ import { Text, View, StyleSheet, Button } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import React, { useState } from "react";
 import AnswerRow from "./AnswerRow";
+import { useFonts } from "expo-font";
 
 export type GameProps = {
   question: string;
@@ -15,6 +16,10 @@ export type Answer = {
 };
 
 function joinWithIcon(parts: string[]) {
+  const [loaded] = useFonts({
+    FontAwesome: require("@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/FontAwesome.ttf"),
+  });
+
   let counter = 0;
   let newParts = parts.map<React.ReactNode>((part, idx) => (
     <Text key={idx + counter++} style={styles.partText}>
@@ -26,7 +31,7 @@ function joinWithIcon(parts: string[]) {
   return newParts.reduce((prev, curr, currIdx) => [
     prev,
     prev && (
-      <FontAwesome key={currIdx + counter++} name="times" size={24} color={"black"} />
+      loaded ? <FontAwesome key={currIdx + counter++} name="times" size={24} color={"black"} /> : <Text>X</Text>
     ),
     curr,
   ]);
