@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, Button } from "react-native";
-import { FontAwesome } from "@expo/vector-icons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import React, { useState } from "react";
 import AnswerRow from "./AnswerRow";
 import { useFonts } from "expo-font";
@@ -31,7 +31,7 @@ function joinWithIcon(parts: string[]) {
   return newParts.reduce((prev, curr, currIdx) => [
     prev,
     prev && (
-      loaded ? <FontAwesome key={currIdx + counter++} name="times" size={24} color={"black"} /> : <Text>X</Text>
+      loaded ? <Ionicons key={currIdx + counter++} name="close-circle-outline" size={24} color={"black"} /> : <Text>X</Text>
     ),
     curr,
   ]);
@@ -104,6 +104,18 @@ export default function Game({ question, parts }: GameProps) {
         {/* Parts to make up Question Answer */}
         <View style={styles.partsContainer}>{joinWithIcon(parts)}</View>
 
+        {/* Example pre-populated answer */}
+        <View style={styles.exampleContainer}>
+          <Text style={styles.exampleText}>Example: </Text>
+          <Text style={styles.exampleText}>10000 buildings</Text>
+          <Ionicons name="close-circle-outline" size={24} color={"gray"} />
+          <Text style={styles.exampleText}>20 floors</Text>
+          <Ionicons name="close-circle-outline" size={24} color={"gray"} />
+          <Text style={styles.exampleText}>8 windows per floor</Text>
+          <Ionicons name="pause" size={24} style={{transform: [{rotate: "90deg"}]}} />
+          <Text style={styles.exampleAnswerText}>10000 * 20 * 8 = 1,600,000 windows in Sydney</Text>
+        </View>
+
         {/* Append a new Answer */}
         <View style={styles.answerContainer}>
           {answers.map(answer => <AnswerRow
@@ -153,12 +165,24 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: "lightgray",
   },
+  exampleContainer: {
+    flexDirection: "row",
+    gap: 10,
+  },
+  exampleText: {
+    fontStyle: "italic",
+  },
+  exampleAnswerText: {
+    fontStyle: "italic",
+    fontWeight: "bold",
+  },
   answerContainer: {
     flexDirection: "column",
     minHeight: 20,
   },
   buttonContainer: {
     flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   statsText: {
     fontSize: 20,
